@@ -2,6 +2,8 @@ package br.edu.ifba.demo.backend.api.model;
 
 import lombok.Data;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +35,7 @@ public class LivroModel {
     private Integer ano_publicacao;
 
     @Column(name = "genero", nullable = true)
-    private Integer genero;
+    private String genero;
 
     @Column(name = "isbn", nullable = true)
     private Integer isbn;
@@ -48,7 +50,7 @@ public class LivroModel {
     private String idioma;
 
     @Column(name = "data_cadastro", nullable = true)
-    private Timestamp data_cadastro;
+    private LocalDateTime data_cadastro;
 
     @Column(name = "preco", nullable = true)
     private Double preco;
