@@ -38,7 +38,7 @@ public class LivroModel {
     private String genero;
 
     @Column(name = "isbn", nullable = true)
-    private Integer isbn;
+    private String isbn;
 
     @Column(name = "num_paginas", nullable = true)
     private Integer num_paginas;

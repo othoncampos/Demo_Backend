@@ -1,8 +1,10 @@
 package br.edu.ifba.demo.backend.api.controller;
 
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifba.demo.backend.api.repository.LivroRepository;
+import jakarta.persistence.Tuple;
+import br.edu.ifba.demo.backend.api.dto.AnoQuantidade;
 import br.edu.ifba.demo.backend.api.model.LivroModel;
 
 @RestController
@@ -22,6 +26,8 @@ import br.edu.ifba.demo.backend.api.model.LivroModel;
 public class LivroController {
 	
 	private LivroRepository livroRepository;
+
+    
 	
 	public LivroController(LivroRepository repository) {
 		super();
@@ -40,9 +46,22 @@ public class LivroController {
 		return livros;
 	}
 
+    @GetMapping("/count")
+	public Long count() {
+		var count = livroRepository.count();
+		return count;
+	}
+
+    // Dados com as informacoes do ano de publicacao e quantidade
+    @GetMapping("/anoqtd")
+	public Long anoqtd() {
+		var count = livroRepository.count();
+		return count;
+	}
+
 	
     @GetMapping("/getById/{id}")
-    public LivroModel getById(@PathVariable("id") Long id) {
+    public LivroModel getById(@PathVariable("id") String id) {
         Optional<LivroModel> livro = livroRepository.findById(id);
         if (livro.isPresent())
             return livro.get();
@@ -50,7 +69,7 @@ public class LivroController {
     }
 
     @GetMapping("/getByIsbn/{isbn}")
-    public LivroModel getByIsbn(@PathVariable("isbn") Integer isbn) {
+    public LivroModel getByIsbn(@PathVariable("isbn") String isbn) {
         Optional<LivroModel> livro = livroRepository.findByIsbn(isbn);
         if (livro.isPresent())
             return livro.get();
@@ -82,5 +101,23 @@ public class LivroController {
         }
     }
 
+    @GetMapping("/getAnoQuantidade/")
+    public List<AnoQuantidade> getLivroCount() {
+        System.out.println("getAnoQuantidade: 1");
+        List<Object[]> resultados = livroRepository.getAnoQuant();
+        System.out.println("getAnoQuantidade: 2" + resultados.size());
+        for (Object[] object : resultados) {
+            System.out.println(object[0].toString() + " : " + object[1].toString());
+        }
+        
+        List<AnoQuantidade> anoquant = resultados.stream()
+        .filter(r -> r != null && r.length >= 2 && r[0] != null && r[1] != null)
+        .map(r -> new AnoQuantidade(
+            Integer.parseInt(r[0].toString()), 
+            ((Number) r[1]).longValue()
+        ))
+        .collect(Collectors.toList());
 
+        return anoquant;
+    }
 }
