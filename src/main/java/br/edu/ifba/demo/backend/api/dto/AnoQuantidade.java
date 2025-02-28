@@ -12,6 +12,4 @@ public class AnoQuantidade {
         this.ano_publicacao = anoPublicacao;
         this.quantidade = quantidade;
     }
-
-
 }

@@ -27,8 +27,6 @@ public class LivroController {
 	
 	private LivroRepository livroRepository;
 
-    
-	
 	public LivroController(LivroRepository repository) {
 		super();
 		this.livroRepository = repository;
@@ -52,14 +50,6 @@ public class LivroController {
 		return count;
 	}
 
-    // Dados com as informacoes do ano de publicacao e quantidade
-    @GetMapping("/anoqtd")
-	public Long anoqtd() {
-		var count = livroRepository.count();
-		return count;
-	}
-
-	
     @GetMapping("/getById/{id}")
     public LivroModel getById(@PathVariable("id") String id) {
         Optional<LivroModel> livro = livroRepository.findById(id);
@@ -101,7 +91,7 @@ public class LivroController {
         }
     }
 
-    @GetMapping("/getAnoQuantidade/")
+    @GetMapping("/getAnoQuant/")
     public List<AnoQuantidade> getLivroCount() {
         System.out.println("getAnoQuantidade: 1");
         List<Object[]> resultados = livroRepository.getAnoQuant();
@@ -120,4 +110,5 @@ public class LivroController {
 
         return anoquant;
     }
+
 }
