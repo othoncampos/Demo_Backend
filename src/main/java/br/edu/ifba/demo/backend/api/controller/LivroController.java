@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifba.demo.backend.api.repository.LivroRepository;
-import jakarta.persistence.Tuple;
 import br.edu.ifba.demo.backend.api.dto.AnoQuantidade;
 import br.edu.ifba.demo.backend.api.model.LivroModel;
 
@@ -52,7 +51,7 @@ public class LivroController {
 
     @GetMapping("/getById/{id}")
     public LivroModel getById(@PathVariable("id") String id) {
-        Optional<LivroModel> livro = livroRepository.findById(id);
+        Optional<LivroModel> livro = livroRepository.findById(Long.parseLong(id));
         if (livro.isPresent())
             return livro.get();
         return null;
@@ -95,6 +94,7 @@ public class LivroController {
     public List<AnoQuantidade> getLivroCount() {
         System.out.println("getAnoQuantidade: 1");
         List<Object[]> resultados = livroRepository.getAnoQuant();
+
         System.out.println("getAnoQuantidade: 2" + resultados.size());
         for (Object[] object : resultados) {
             System.out.println(object[0].toString() + " : " + object[1].toString());
