@@ -17,4 +17,7 @@ public interface LivroRepository extends JpaRepository<LivroModel, Long>
 
 	@Query(value = "SELECT CONVERT(l.ano_publicacao, SIGNED) AS ano_publicacao, COUNT(*) FROM livro l GROUP BY l.ano_publicacao order by l.ano_publicacao;", nativeQuery = true)
 	List<Object[]> getAnoQuant();
+
+	@Query(value = "select autor, count(*) from livro group by autor order by autor;", nativeQuery = true);
+	List<Object[]> getAutorQuant();
 }

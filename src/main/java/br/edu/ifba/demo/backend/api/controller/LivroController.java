@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.edu.ifba.demo.backend.api.repository.LivroRepository;
 import br.edu.ifba.demo.backend.api.dto.AnoQuantidade;
+import br.edu.ifba.demo.backend.api.dto.AutorQuantidade;
 import br.edu.ifba.demo.backend.api.model.LivroModel;
 
 @RestController
@@ -92,7 +93,6 @@ public class LivroController {
 
     @GetMapping("/getAnoQuant/")
     public List<AnoQuantidade> getLivroCount() {
-        System.out.println("getAnoQuantidade: 1");
         List<Object[]> resultados = livroRepository.getAnoQuant();
 
         System.out.println("getAnoQuantidade: 2" + resultados.size());
@@ -111,4 +111,24 @@ public class LivroController {
         return anoquant;
     }
 
+    @GetMapping("/getAutorQuant/")
+    public List<AutorQuantidade> getAutorQuant(){
+        System.out.println("getAutorQuant: 1");
+        List<Object[]> resultados = livroRepository.getAutorQuant();
+        System.out.println("getAutorQuant: 2" + resultados.size());
+        for (Object[] object : resultados) {
+            System.out.println(object[0].toString() + " : " + object[1].toString());
+        }
+
+        List<AutorQuantidade> autorquant = resultados.stream()
+        .filter(r -> r != null && r.length >= 2 && r[0] != null && r[1] != null)
+        .map(r -> new AutorQuantidade(
+            r[0].toString(), 
+            ((Number) r[1]).longValue()
+        ))
+        .collect(Collectors.toList());
+
+        return autorquant;
+    }
+    
 }

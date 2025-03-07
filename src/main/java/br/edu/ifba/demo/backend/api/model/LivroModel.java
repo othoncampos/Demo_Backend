@@ -1,9 +1,7 @@
 package br.edu.ifba.demo.backend.api.model;
 
 import lombok.Data;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
